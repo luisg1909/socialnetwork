@@ -5,6 +5,7 @@ import Home from './pages/Home1';
 import Register from './pages/Register';
 import UserManagement from './pages/UserManagement';
 import ProfilePage from './pages/ProfilePage';
+import ProfileDetails from './pages/ProfileDetails';
 import PostDetail from './pages/PostDetail';
 import Login from './pages/Login';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -24,6 +25,7 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/users" element={<UserManagement />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/Profiledetails" element={<ProfileDetails />} />
             <Route path="/post/:postId" element={<PostDetail />} />
             <Route path="/login" element={<Login />} />
             <Route path="/postcreate" element={<PostPage />} />

@@ -1,14 +1,27 @@
 class User {
-    constructor(username, name, email, role = 'regular', avatar = '', password = '', points = 0) {
+    constructor(username, Firstname, Lastname, Email , Month , Day ,Year ,Password,AboutMe
+      , Work, Education, Interests , Networks , Hometown ,Relationship ,ProfilePic ) {
       this.username = username;
-      this.name = name;
-      this.email = email;
-      this.role = role; // 'admin' or 'regular'
-      this.avatar = avatar;
-      this.password = password; // Store the password
-      this.points = points;
+      this.Firstname = Firstname;
+      this.Lastname = Lastname;
+      this.Email = Email; 
+      this.Month = Month;
+      this.Day = Day;
+      this.Year = Year;
+      this.Password = Password;
+      this.ProfilePic = ProfilePic;      
+      this.AboutMe = AboutMe;
+      this.Work = Work;
+      this.Education = Education; 
+      this.Interests = Interests;
+      this.Networks = Networks;
+      this.Hometown = Hometown;
+      this.Relationship = Relationship;
+      this.ProfilePic = ProfilePic;
     }
   }
+
+
   
   class Post {
     constructor(id, title, content, author, dateCreated = new Date(), image = '') {

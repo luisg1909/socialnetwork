@@ -16,6 +16,29 @@ const Home = () => {
   const navigate = useNavigate();
   const message = location.state?.message;
   const [user, setUser] = useState(null);
+  const posts = getFromSession('posts') || [];
+  const [showAttachImage, setShowAttachImage] = useState(false);
+
+  const [formData, setFormData] = useState({
+    content: '',
+    image: ''
+  })
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    var newPost = new Post(    
+      user.username,
+      formData.content,      
+      formData.image,   
+      new Date(),
+      '0'
+    );
+    posts.push(newPost);
+
+    saveToSession('posts', posts);
+    window.location.reload(); 
+
+  };
+  var users = getFromSession("users") || [];
 
   useEffect(() => {
     const storedUsers = getFromSession('users') || [];
@@ -44,23 +67,31 @@ const Home = () => {
       };
   
       saveToSession('users', [defaultUser]);
-      saveToSession('currentUser', defaultUser);
-      setUser(defaultUser);
+    
+     
+       setUser(defaultUser);
+       saveToSession('currentUser', defaultUser);
+
     } else {
       const currentUser = getCurrentUser();
-      console.log("Current user from session:", currentUser);
+      console.log("Current user from session because already have users:", currentUser);
       setUser(currentUser); 
+      users = getFromSession("users") || [];
+      console.log("Current users from session 2:", users);
+
     }
   }, []);
  
 
+  console.log("posts currently",posts);
 
 
 
   if (!user) return null;
 
   
-  
+
+
   return (
     <Container fluid className="bg-light p-3">
        {message && (
@@ -92,50 +123,107 @@ const Home = () => {
         <Col md={6}>
           <Card className="mb-3">
             <Card.Body>
-              <Form>
-                <Form.Control as="textarea" rows={2} placeholder="What's on your mind?" />
-                <div className="text-end mt-2">
-                  <Button variant="primary" size="sm">Post</Button>
-                </div>
+              <Form onSubmit={handleSubmit}>
+
+
+                <Form.Control name="content" value={formData.content}  as="textarea" rows={2} placeholder="What's on your mind?" onChange={(e) => setFormData({ ...formData, content: e.target.value })} />
+                
+                {showAttachImage && (
+                    <Form.Group className="mb-4 text-center">
+                      <Form.Label><strong>Select post Picture</strong></Form.Label>
+                      <div className="mb-2">
+                        {formData.image && (
+                          <img
+                            src={`${process.env.PUBLIC_URL}/img/${formData.image}`}
+                            alt="Selected"
+                            style={{ width: 100, height: 100, borderRadius: '50%', objectFit: 'cover' }}
+                          />
+                        )}
+                      </div>
+                      <div className="d-flex justify-content-center gap-3">
+                        {[ '2025-05-22_042454.jpg', '2025-05-26_232236.jpg', '2025-05-26_232330.jpg','2025-05-26_232223.jpg', '2025-05-26_232449.jpg', '2025-05-26_232422.jpg', '2025-05-26_232402.jpg'].map((pic) => (
+                          <img
+                            key={pic}
+                            src={`${process.env.PUBLIC_URL}/img/${pic}`}
+                            alt={pic}
+                            style={{
+                              width: 60,
+                              height: 60,
+                              borderRadius: '50%',
+                              border: formData.image === pic ? '3px solid #0d6efd' : '2px solid gray',
+                              cursor: 'pointer',
+                              objectFit: 'cover'
+                            }}
+                            onClick={() => setFormData(prev => ({ ...prev, image: pic }))}
+                          />
+                        ))}
+                      </div>
+                    </Form.Group>
+                  )}
+                <Row>                    
+                    <Col>
+                    <div className="text-end mt-2">
+                    <Button
+                      variant="success"
+                      size="sm"
+                      onClick={() => setShowAttachImage((prev) => !prev)}
+                    >
+                      {showAttachImage ? "Hide Image Picker" : "Attach Image"}
+                    </Button>
+                    </div>              
+                    </Col>
+                    <Col>
+                    <div className="text-end mt-2">
+                     <Button type="submit" variant="primary" size="sm">Post</Button>
+                    </div>
+                    </Col>                
+                </Row>
+             
               </Form>
             </Card.Body>
           </Card>
 
           {/* Example Post */}
-          <Card className="mb-3">
-            <Card.Body>
-              <div className="d-flex mb-2">
-                <Image src={`${process.env.PUBLIC_URL}/img/2025-05-22_032313.jpg`} roundedCircle width={40} className="me-2" />
-                <div>
-                  <strong>P.Victor</strong> posted about <em>Marina and the Diamonds</em><br />
-                  <small className="text-muted">5 hours ago</small>
-                </div>
-              </div>
-              <p>Marina and the Diamonds - The Family Jewels. Not long to wait now...</p>
-              <Image src={`${process.env.PUBLIC_URL}/img/2025-05-22_042101.jpg`} fluid />
-              <div className="mt-2 text-muted" style={{ fontSize: '0.9rem' }}>
-                Like · Comment · Share
-              </div>
-            </Card.Body>
+         
+          {[...posts]
+              .sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated)) // ascending
+              .map((post, index) => {
+                const matchedUser = users.find((u) => u.username === post.username);
+                const profilePic = matchedUser?.ProfilePic || 'default.jpg';
+                const usernameandlastname = `${matchedUser?.Firstname || ''} ${matchedUser?.Lastname || ''}`.trim();
+
+                return (
+                  <Card className="mb-3" key={index}>
+                    <Card.Body>
+                      <div className="d-flex mb-2">
+                        <Image
+                          src={`${process.env.PUBLIC_URL}/img/${profilePic}`}
+                          roundedCircle
+                          width={40}
+                          className="me-2"
+                        />
+                        <div>
+                          <strong>{usernameandlastname}</strong> posted <br />
+                          <small className="text-muted">
+                            {new Date(post.dateCreated).toLocaleString()}
+                          </small>
+                        </div>
+                      </div>
+                      <p>{post.content}</p>
+                      {post.image && post.image.length > 0 && (
+                        <Image src={`${process.env.PUBLIC_URL}/img/${post.image}`} fluid />
+                      )}
+                      <div className="mt-2 text-muted" style={{ fontSize: '0.9rem' }}>
+                        Like · Comment · Share
+                      </div>
+                    </Card.Body>
+                  </Card>
+                );
+        })}
+           <Card className="mb-3">
           </Card>
 
-          {/* Another Post */}
-          <Card className="mb-3">
-            <Card.Body>
-              <div className="d-flex mb-2">
-                <Image src={`${process.env.PUBLIC_URL}/img/2025-05-22_032332.jpg`}  roundedCircle width={40} className="me-2" />
-                <div>
-                  <strong>Gaby Pezzaro</strong> commented on a photo<br />
-                  <small className="text-muted">1 hour ago</small>
-                </div>
-              </div>
-              <p>Cine day</p>
-              <Image src={`${process.env.PUBLIC_URL}/img/2025-05-22_042454.jpg`}  fluid />
-              <div className="mt-2 text-muted" style={{ fontSize: '0.9rem' }}>
-                Like · Comment · Share
-              </div>
-            </Card.Body>
-          </Card>
+           
         </Col>
 
         {/* Right Sidebar */}

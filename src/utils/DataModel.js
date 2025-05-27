@@ -21,16 +21,17 @@ class User {
     }
   }
 
+  
 
   
   class Post {
-    constructor(id, title, content, author, dateCreated = new Date(), image = '') {
-      this.id = id;
-      this.title = title;
-      this.content = content;
-      this.author = author; 
+    constructor(username, content, image = '', dateCreated = new Date(),kind) {
+     
+      this.username = username;
+      this.content = content;      
       this.dateCreated = dateCreated;
       this.image = image;
+      this.kind = kind; 
     }
   }
   

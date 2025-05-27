@@ -6,6 +6,10 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { getFromSession } from '../utils/SessionStorage';
 import {  saveToSession } from '../utils/SessionStorage';
+import { Post } from '../utils/DataModel';
+const posts = getFromSession('posts') || [];
+const users = getFromSession('users') || [];
+
 const AppNavbar = () => {
   const currentUser = getCurrentUser(); // Assume it returns { name, image }
   const navigate = useNavigate();
@@ -43,7 +47,73 @@ const AppNavbar = () => {
         Relationship: "Single"
       };
   
-      saveToSession('users', [defaultUser]);
+      users.push(defaultUser);
+
+      const defaultUser2 = {
+        username: "P.Victor",
+        Firstname: "P.Victor",
+        Lastname: "",
+        Email: "P.Victor@thefacebook.com",
+        Month: "Dec",
+        Day: "14",
+        Year: "1988",
+        password: "123",
+        ProfilePic: "2025-05-26_210635.jpg",
+        AboutMe: "I like to resolver puzzles, diving in ocean and park runner",
+        Work: "Facebook",
+        Education: "Harvard University",
+        Interests: "cat lover",
+        Networks: "Facebook",
+        Hometown: "New York",
+        Relationship: "Single"
+      };
+      users.push(defaultUser2);
+
+      const defaultUser3 = {
+        username: "GabyPezzaro",
+        Firstname: "Gaby",
+        Lastname: "Pezzaro",
+        Email: "Pezzaro@thefacebook.com",
+        Month: "Abr",
+        Day: "14",
+        Year: "1993",
+        password: "123",
+        ProfilePic: "2025-05-26_210612.jpg",
+        AboutMe: "I like movies,novel and philosophy",
+        Work: "Facebook",
+        Education: "Phillips Exeter Academy",
+        Interests: "writer",
+        Networks: "Facebook",
+        Hometown: "Dobbs Ferry, New York",
+        Relationship: "Single"
+      };
+      users.push(defaultUser3);
+
+      var newPost = new Post(    
+        'P.Victor',
+        'Marina and the Diamonds - The Family Jewels. Not long to wait now...',
+        '2025-05-22_042101.jpg',
+        new Date(),
+        '0'
+      );
+       posts.push(newPost);
+       console.log("newPost:", newPost);
+
+        newPost = new Post(    
+         'GabyPezzaro',
+         'Cine day',
+         '2025-05-22_042454.jpg',
+         new Date(),
+         '0'
+       );
+       posts.push(newPost);
+       console.log("newPost:", newPost);
+
+       saveToSession('posts', posts);
+
+
+
+      saveToSession('users',users);
       saveToSession('currentUser', defaultUser);
       setUser(defaultUser);
     } else {

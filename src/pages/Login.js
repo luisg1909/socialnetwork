@@ -4,6 +4,7 @@ import { getFromSession, saveToSession } from '../utils/SessionStorage';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Form, Card , Image} from 'react-bootstrap';
 import { User } from '../utils/DataModel';
+import '../App.css';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -26,7 +27,6 @@ const Login = () => {
     const user = users.find(
       (u) => u.Email === formData.Email && u.Password === formData.Password
     );
-    console.log("Current users:", users);
 
     if (user) {
       saveToSession('currentUser', user);
@@ -67,11 +67,11 @@ const Login = () => {
 
     navigate('/Profiledetails', { state: { message: 'User registered successfully!' } });
 
-    console.log("User registered successfully!")
-
+    
   };
   return (
-    <div className="bg-light min-vh-100">
+    <div className="gradient-bg min-vh-100">
+
       {/* Top Blue Bar */}
       <div className="bg-primary text-white d-flex justify-content-between align-items-center px-5 py-2">
       

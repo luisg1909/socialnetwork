@@ -32,7 +32,7 @@ const AppNavbar = () => {
         username: "Mark",
         Firstname: "Mark",
         Lastname: "Zuckerberg",
-        Email: "Mark.Zuckerberg@facebook.com",
+        Email: "Mark.Zuckerberg@thefacebook.com",
         Month: "May",
         Day: "14",
         Year: "1984",
@@ -91,23 +91,32 @@ const AppNavbar = () => {
 
       var newPost = new Post(    
         'P.Victor',
-        'Marina and the Diamonds - The Family Jewels. Not long to wait now...',
+        'Marina and the Diamonds - The Family. Not long to wait now...',
         '2025-05-22_042101.jpg',
         new Date(),
         '0'
       );
        posts.push(newPost);
-       console.log("newPost:", newPost);
+      
 
         newPost = new Post(    
          'GabyPezzaro',
          'Cine day',
          '2025-05-22_042454.jpg',
-         new Date(),
+         '2025-05-27T13:33:22.444Z',
          '0'
        );
        posts.push(newPost);
-       console.log("newPost:", newPost);
+       
+       
+       newPost = new Post(    
+        'Mark',
+        'Welcome to the facebook',
+        '',
+        '2025-05-25T18:21:22.444Z',
+        '0'
+      );
+      posts.push(newPost);
 
        saveToSession('posts', posts);
 

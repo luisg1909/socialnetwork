@@ -8,6 +8,7 @@ import { Post } from '../utils/DataModel';
 import { User } from '../utils/DataModel';
 import { useEffect } from 'react';
 import { Container, Row, Col, Card, ListGroup, Form, Button, Image } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 import { FaUser, FaUserFriends, FaCalendarAlt, FaImages, FaInbox, FaUserPlus, FaSearch } from "react-icons/fa";
 import { MdDynamicFeed } from "react-icons/md";
@@ -38,52 +39,28 @@ const Home = () => {
     window.location.reload(); 
 
   };
+  const handleFriend = (FriendId) => {
+    navigate(`/profile/${FriendId}`); // Navigate to the edit page
+  };
   var users = getFromSession("users") || [];
 
   useEffect(() => {
     const storedUsers = getFromSession('users') || [];
-    console.log("Stored users:", storedUsers);
+    
   
     if (storedUsers.length === 0) {
-      console.log("No users found — loading default user");
-  
-      const defaultUser = {
-        username: "Mark",
-        Firstname: "Mark",
-        Lastname: "Zuckerberg",
-        Email: "Mark.Zuckerberg@facebook.com",
-        Month: "May",
-        Day: "14",
-        Year: "1984",
-        password: "123",
-        ProfilePic: "2025-05-22_022053.jpg",
-        AboutMe: "I'm trying to make the world a more open place. I like building things that help people connect and share.",
-        Work: "Facebook",
-        Education: "Harvard University, Phillips Exeter Academy",
-        Interests: "Programming, Breaking Things, Information Flow, Minimalism",
-        Networks: "Facebook",
-        Hometown: "Dobbs Ferry, New York",
-        Relationship: "Single"
-      };
-  
-      saveToSession('users', [defaultUser]);
-    
-     
-       setUser(defaultUser);
-       saveToSession('currentUser', defaultUser);
+ 
 
     } else {
       const currentUser = getCurrentUser();
-      console.log("Current user from session because already have users:", currentUser);
+
       setUser(currentUser); 
       users = getFromSession("users") || [];
-      console.log("Current users from session 2:", users);
-
+      
     }
   }, []);
  
 
-  console.log("posts currently",posts);
 
 
 
@@ -113,7 +90,11 @@ const Home = () => {
                 <ListGroup.Item>Messages</ListGroup.Item>
                 <ListGroup.Item>Events</ListGroup.Item>
                 <ListGroup.Item>Photos</ListGroup.Item>
+                
+                <a href="/sharenetwork#/friends" style={{ textDecoration: 'none', color: 'inherit' }}>
                 <ListGroup.Item>Friends</ListGroup.Item>
+                </a> 
+
               </ListGroup>
             </Card.Body>
           </Card>
@@ -196,12 +177,15 @@ const Home = () => {
                   <Card className="mb-3" key={index}>
                     <Card.Body>
                       <div className="d-flex mb-2">
+                      <Link to={`/profile/${post.username}`}>
                         <Image
                           src={`${process.env.PUBLIC_URL}/img/${profilePic}`}
                           roundedCircle
                           width={40}
                           className="me-2"
                         />
+                      </Link>
+
                         <div>
                           <strong>{usernameandlastname}</strong> posted <br />
                           <small className="text-muted">

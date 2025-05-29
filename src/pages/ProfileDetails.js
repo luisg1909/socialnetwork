@@ -47,7 +47,7 @@ const ProfileDetails = () => {
   setUsers(updatedUsers);
   saveToSession('users', updatedUsers); // Save updated users to sessionStorage
   saveToSession('currentUser', formData);
-  navigate('/ProfilePage', { state: { message: 'User edited successfully!' } });
+  navigate('/Profile', { state: { message: 'User edited successfully!' } });
 
   };
   const handleSkip = (e) => {

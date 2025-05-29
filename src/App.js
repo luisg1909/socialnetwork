@@ -2,7 +2,7 @@ import React from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import AppNavbar from './components/Navbar';
 import Home from './pages/Home1';
-import Register from './pages/Register';
+import Friends from './pages/Friends';
 import UserManagement from './pages/UserManagement';
 import ProfilePage from './pages/ProfilePage';
 import ProfileDetails from './pages/ProfileDetails';
@@ -22,8 +22,9 @@ const App = () => {
           <Routes>
             {/* Routes */}
             <Route path="/" element={<Home />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/friends" element={<Friends />} />
             <Route path="/users" element={<UserManagement />} />
+            <Route path="/profile/:FriendId" element={<ProfilePage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/Profiledetails" element={<ProfileDetails />} />
             <Route path="/post/:postId" element={<PostDetail />} />

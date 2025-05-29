@@ -22,6 +22,13 @@ class User {
   }
 
   
+  class Friend {
+    constructor(username, friendId, status ) {
+      this.username = username;
+      this.friendId = friendId;
+      this.status = status;
+    }
+  }
 
   
   class Post {
@@ -35,5 +42,5 @@ class User {
     }
   }
   
-  export { User, Post };
+  export { User, Post,Friend };
   

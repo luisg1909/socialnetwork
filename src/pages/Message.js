@@ -141,7 +141,7 @@ const SendmessagePage = () => {
                  alt="Profile"
               />
               <Card.Text className="mt-3">View Photos of {user.Firstname} (17)</Card.Text>
-              <Card.Text>Send {user.Firstname} a Message</Card.Text>
+             
             </Card.Body>
           </Card>
 

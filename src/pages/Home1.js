@@ -21,6 +21,7 @@ const Home = () => {
   const posts = getFromSession('posts') || [];
   const [showAttachImage, setShowAttachImage] = useState(false);
   const [path, setPath] = useState(null);
+  const basename = '/sharenetwork';
 
   const [formData, setFormData] = useState({
     content: '',
@@ -85,7 +86,7 @@ const Home = () => {
           <Card className="mb-3">
             <Card.Body>
               <div className="d-flex align-items-center mb-3">
-              <a href={path + "/#/profile"}>  <Image src={`${process.env.PUBLIC_URL}/img/${user.ProfilePic}`} roundedCircle width={40} className="me-2" /></a>  
+              <a href={basename + "/#/profile"}>  <Image src={`${process.env.PUBLIC_URL}/img/${user.ProfilePic}`} roundedCircle width={40} className="me-2" /></a>  
                 <span>
                 <strong style={{ textDecoration: 'none', color: '#003399' }}> {user.Firstname} {user.Lastname}</strong>
                  </span>
@@ -93,14 +94,14 @@ const Home = () => {
               <ListGroup variant="flush">
                 <ListGroup.Item>News Feed</ListGroup.Item>
               
-                <a href={path + "/#/messages"} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <a href={basename + "/#/messages"} style={{ textDecoration: 'none', color: 'inherit' }}>
                 <ListGroup.Item>Messages</ListGroup.Item>
                 </a> 
 
                 <ListGroup.Item>Events</ListGroup.Item>
                 <ListGroup.Item>Photos</ListGroup.Item>
                 
-                <a href="/#/friends" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <a href={basename + "#/friends"} style={{ textDecoration: 'none', color: 'inherit' }}>
                 <ListGroup.Item>Friends</ListGroup.Item>
                 </a> 
 

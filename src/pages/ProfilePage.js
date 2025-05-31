@@ -24,6 +24,8 @@ const ProfilePage = () => {
   const [IsFriend, setIsFriend] = useState(null);
   const location = useLocation();
   const message = location.state?.message;
+  const basename = '/sharenetwork';
+
   useEffect(() => {
     const friends = getFromSession("friends") || [];
     setFriends(friends);
@@ -195,7 +197,7 @@ const ProfilePage = () => {
                          <span>Profile</span>
                        </div>
                        <div className="flex flex-col items-center">  
-                         <a href="/sharenetwork#/friends" style={{ textDecoration: 'none', color: 'inherit' }}>
+                         <a href={basename + "/#/friends"} style={{ textDecoration: 'none', color: 'inherit' }}>
                          <FaUserFriends size={24} />
                          <span>Friends</span>
                          </a> 
@@ -209,7 +211,7 @@ const ProfilePage = () => {
                          <span>Events</span>
                        </div>
                        <div className="flex flex-col items-center">
-                       <a href="/#/messages" style={{ textDecoration: 'none', color: 'inherit' }}>
+                       <a href={basename + "/#/messages"} style={{ textDecoration: 'none', color: 'inherit' }}>
                        <FaInbox size={24} />
                          <span>Messages</span>
                        </a>                         

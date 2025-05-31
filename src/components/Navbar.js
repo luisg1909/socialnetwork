@@ -52,7 +52,7 @@ const AppNavbar = () => {
   useEffect(() => {
     const storedUsers = getFromSession('users') || [];
     setPath(getCurrentPath()); 
-
+console.log("current users login: ",storedUsers)
     if (storedUsers.length === 0) {
   
       const defaultUser = {
@@ -163,8 +163,14 @@ const AppNavbar = () => {
   if (!user) return null;
 
   return (
+   
+    
     <Navbar bg="primary" variant="dark" expand="lg">
-      <Navbar.Brand href={basename + "#/"}>  <h2 className="m-0">The facebook</h2></Navbar.Brand>
+     
+
+      <Navbar.Brand href={basename + "#/"}>  <h2 className="ms-3 "> The facebook</h2></Navbar.Brand>
+     
+      
       {currentUser  ? (
       <Container>
       <Nav className="ms-auto">
@@ -184,9 +190,9 @@ const AppNavbar = () => {
             <strong>{currentUser?.username || 'User Name'}</strong>
           </div>
           <NavDropdown.Divider />
-
+          
       
-          <NavDropdown.Item href={path + "/#/friends"}>Edit Friends</NavDropdown.Item>
+          <NavDropdown.Item href={basename + "#/friends"}>Edit Friends</NavDropdown.Item>
           <NavDropdown.Item href="#/account-settings">Account Settings</NavDropdown.Item>
           <NavDropdown.Item href="#/privacy-settings">Privacy Settings</NavDropdown.Item>
           <NavDropdown.Item href="#/app-settings">Application Settings</NavDropdown.Item>

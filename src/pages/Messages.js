@@ -22,6 +22,7 @@ const MessagesPage = () => {
   const [showAttachImage, setShowAttachImage] = useState(false);
   const [path, setPath] = useState(null);
   const [userMessages, setUserMessages] = useState([]);
+  const basename = '/sharenetwork';
 
   const [formData, setFormData] = useState({
     content: '',
@@ -56,7 +57,7 @@ const MessagesPage = () => {
     const messages = getFromSession('messages') || [];
 
     const userMessages = messages.filter(f =>
-      (f.username === currentUser.username ) 
+      (f.username === currentUser.username ) ||  (f.friendId === currentUser.username )
     );
      setUserMessages(userMessages);  
 
@@ -93,21 +94,20 @@ const MessagesPage = () => {
           <Card className="mb-3">
             <Card.Body>
               <div className="d-flex align-items-center mb-3">
-              <a href="/#/profile">  <Image src={`${process.env.PUBLIC_URL}/img/${user.ProfilePic}`} roundedCircle width={40} className="me-2" /></a>  
+              
+              <a href={basename + "/#/profile"}>  <Image src={`${process.env.PUBLIC_URL}/img/${user.ProfilePic}`} roundedCircle width={40} className="me-2" /></a>  
                 <span>
                 <strong style={{ textDecoration: 'none', color: '#003399' }}> {user.Firstname} {user.Lastname}</strong>
                  </span>
               </div>
               <ListGroup variant="flush">
                 <ListGroup.Item>News Feed</ListGroup.Item>
-                <a href="/#/messages" style={{ textDecoration: 'none', color: 'inherit' }}>
-                <ListGroup.Item>Messages</ListGroup.Item>
-                </a> 
+              
 
                 <ListGroup.Item>Events</ListGroup.Item>
                 <ListGroup.Item>Photos</ListGroup.Item>
                 
-                <a href="/#/friends" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <a href={basename + "/#/friends"} style={{ textDecoration: 'none', color: 'inherit' }}>
                 <ListGroup.Item>Friends</ListGroup.Item>
                 </a> 
 
@@ -140,15 +140,17 @@ const MessagesPage = () => {
       ) : (
        
         userMessages.map((message, index) => {
-            const matchedUser = users.find((u) => u.username === message.friendId);
-            const profilePic = matchedUser?.ProfilePic || 'default.jpg';
-            const usernameandlastname = `${matchedUser?.Firstname || ''} ${matchedUser?.Lastname || ''}`.trim();
-
+            var matchedUser = users.find((u) => u.username === message.username);
+            if(matchedUser.username===user.username) matchedUser = users.find((u) => u.username === message.friendId);
+            var profilePic = matchedUser?.ProfilePic || 'default.jpg';
+            var usernameandlastname = `${matchedUser?.Firstname || ''} ${matchedUser?.Lastname || ''}`.trim();
+          
+           
             return (
               <Card className="mb-3" key={index}>
                 <Card.Body>
                   <div className="d-flex mb-2">
-                  <Link to={`/sendmessage/${message.friendId}`}>
+                  <Link to={`/sendmessage/${matchedUser.username}`}>
                     <Image
                       src={`${process.env.PUBLIC_URL}/img/${profilePic}`}
                       roundedCircle
@@ -156,7 +158,11 @@ const MessagesPage = () => {
                       className="me-2"
                     />
                   </Link>
-
+                  <div>
+                          <small className="text-muted">
+                            {message.username}
+                          </small>
+                   </div>
          
                   </div>
                   <p>{message.message}</p>

@@ -9,6 +9,7 @@ import {  saveToSession } from '../utils/SessionStorage';
 import { Post } from '../utils/DataModel';
 import {  Row, Col, Form, Card} from 'react-bootstrap';
 import {  Button, Alert } from 'react-bootstrap';
+import { getCurrentPath } from '../utils/Auth';
 
 const posts = getFromSession('posts') || [];
 const users = getFromSession('users') || [];
@@ -18,6 +19,8 @@ const AppNavbar = () => {
   const navigate = useNavigate();
   const basename = '/sharenetwork';
   const [user, setUser] = useState(null);
+  const [path, setPath] = useState(null);
+
   const [formData, setFormData] = useState({    
     Email: '',    
     Password: ''
@@ -48,7 +51,8 @@ const AppNavbar = () => {
   };
   useEffect(() => {
     const storedUsers = getFromSession('users') || [];
-  
+    setPath(getCurrentPath()); 
+
     if (storedUsers.length === 0) {
   
       const defaultUser = {
@@ -181,8 +185,8 @@ const AppNavbar = () => {
           </div>
           <NavDropdown.Divider />
 
-       
-          <NavDropdown.Item href="/#/friends">Edit Friends</NavDropdown.Item>
+      
+          <NavDropdown.Item href={path + "/#/friends"}>Edit Friends</NavDropdown.Item>
           <NavDropdown.Item href="#/account-settings">Account Settings</NavDropdown.Item>
           <NavDropdown.Item href="#/privacy-settings">Privacy Settings</NavDropdown.Item>
           <NavDropdown.Item href="#/app-settings">Application Settings</NavDropdown.Item>

@@ -85,15 +85,15 @@ const Home = () => {
           <Card className="mb-3">
             <Card.Body>
               <div className="d-flex align-items-center mb-3">
-              <a href="/#/profile">  <Image src={`${process.env.PUBLIC_URL}/img/${user.ProfilePic}`} roundedCircle width={40} className="me-2" /></a>  
+              <a href={path + "/#/profile"}>  <Image src={`${process.env.PUBLIC_URL}/img/${user.ProfilePic}`} roundedCircle width={40} className="me-2" /></a>  
                 <span>
                 <strong style={{ textDecoration: 'none', color: '#003399' }}> {user.Firstname} {user.Lastname}</strong>
                  </span>
               </div>
               <ListGroup variant="flush">
                 <ListGroup.Item>News Feed</ListGroup.Item>
-               
-                <a href="/#/messages" style={{ textDecoration: 'none', color: 'inherit' }}>
+              
+                <a href={path + "/#/messages"} style={{ textDecoration: 'none', color: 'inherit' }}>
                 <ListGroup.Item>Messages</ListGroup.Item>
                 </a> 
 

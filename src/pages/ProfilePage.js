@@ -11,6 +11,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Friend } from '../utils/DataModel';
 import { useLocation} from 'react-router-dom';
 import { Table, Alert } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const ProfilePage = () => {
   const users = getFromSession('users') || [];
@@ -27,7 +28,8 @@ const ProfilePage = () => {
     const friends = getFromSession("friends") || [];
     setFriends(friends);
     const storedUsers = getFromSession('users') || [];
-    
+
+
       
     if (storedUsers.length === 0) {
       
@@ -39,12 +41,10 @@ const ProfilePage = () => {
       if (!FriendId || FriendId === currentUser.username) {
         setIsOwnProfile(true);
         setUser(currentUser);
-        console.log("setIsOwnProfile 1",true);
-        console.log("isOwnProfile 1",isOwnProfile);
+        
 
       } else {
-        console.log("setIsOwnProfile 2",false);
-        console.log("isOwnProfile 2",isOwnProfile);
+  
 
         setIsOwnProfile(false);
         const UserProfile = storedUsers.find((p) => p.username === FriendId);
@@ -65,7 +65,6 @@ const ProfilePage = () => {
 
   if (!user) return null;
 
-  console.log("users!",users)
  
   const gotoEdit = (e) => {
    
@@ -133,7 +132,10 @@ const ProfilePage = () => {
                  alt="Profile"
               />
               <Card.Text className="mt-3">View Photos of {user.Firstname} (17)</Card.Text>
+              <Link  style={{ textDecoration: 'none', color: 'inherit' }} to={`/sendmessage/${FriendId}`}>
               <Card.Text>Send {user.Firstname} a Message</Card.Text>
+                      </Link>
+            
             </Card.Body>
           </Card>
 
@@ -152,7 +154,10 @@ const ProfilePage = () => {
         <Col md={6}>
           <Card>
             <Card.Body>
-              <h5>{user.Firstname} {user.Lastname}</h5>
+              <h5>
+              <strong style={{ textDecoration: 'none', color: '#003399' }}> {user.Firstname} {user.Lastname}</strong>
+
+               </h5>
               <div className="d-flex gap-3 mb-3">
                 <span className="text-primary">Wall</span>
                 <span>Info</span>
@@ -204,10 +209,12 @@ const ProfilePage = () => {
                          <span>Events</span>
                        </div>
                        <div className="flex flex-col items-center">
-                         <FaInbox size={24} />
+                       <a href="/#/messages" style={{ textDecoration: 'none', color: 'inherit' }}>
+                       <FaInbox size={24} />
                          <span>Messages</span>
+                       </a>                         
                        </div>
-                       <div className="flex flex-col items-center">
+                       <div className="flex flex-col items-center">  
                          <FaUserPlus size={24} />
                          <span>Requests</span>
                        </div>
@@ -215,9 +222,15 @@ const ProfilePage = () => {
 
             ) : (
               <div className="grid grid-cols-1 gap-1 p-4 text-center text-sm">
-              <Button  variant="secondary" className="w-50">
-             Send message
-              </Button>
+
+                      <Link to={`/sendmessage/${FriendId}`}>
+                        <Button  variant="primary" className="w-50">
+                      Send message
+                        </Button>
+                      </Link>
+
+
+           
               </div>
             )}
             </Card.Body>

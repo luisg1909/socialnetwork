@@ -19,22 +19,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    console.log("User handleLogin!")
 
-    const users = getFromSession('users') || [];
-    const user = users.find(
-      (u) => u.Email === formData.Email && u.Password === formData.Password
-    );
-
-    if (user) {
-      saveToSession('currentUser', user);
-      navigate('/', { state: { message: 'Welcome!' } });
-    } else {
-      setError('Invalid username or password.');
-    }
-  };
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -63,8 +48,8 @@ const Login = () => {
     const user = users.find(
       (u) => u.username === username
     );
-    saveToSession('currentUser', user);    
-
+    saveToSession('currentUser', newUser);    
+    setError('');
     navigate('/Profiledetails', { state: { message: 'User registered successfully!' } });
 
     
@@ -73,34 +58,7 @@ const Login = () => {
     <div className="gradient-bg min-vh-100">
 
       {/* Top Blue Bar */}
-      <div className="bg-primary text-white d-flex justify-content-between align-items-center px-5 py-2">
-      
-        <div className="d-flex align-items-center gap-2">
-        <Form  onSubmit={handleLogin}>
 
-        <Row>
-                    
-                    <Col>
-                    <Form.Control className="mt-2"name="Email"  value={formData.Email} type="email" size="sm" required placeholder="Email" onChange={(e) => setFormData({ ...formData, Email: e.target.value })} />
-       
-                    </Col>
-                    <Col>
-                    <Form.Control className="mt-2" name="Password"  value={formData.Password}  size="sm" type="password" required placeholder="Password" onChange={(e) => setFormData({ ...formData, Password: e.target.value })} />
-          
-                    </Col>
-                    <Col>
-                    <Button className="w-100 mt-3" type="submit" variant="warning" >Log In</Button>
-                    </Col>
-                    <Col>
-                    {error && <Alert variant="danger">{error}</Alert>}
-                    </Col>
-        </Row>
-       
-                
-        </Form>
-
-        </div>
-      </div>
 
       {/* Main Content */}
       <Container className="mt-5">

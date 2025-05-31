@@ -31,7 +31,6 @@ const PostPage = () => {
   };
 
   const handleImageSelect = (image) => {
-    console.log(`image: ${image}`); 
     setSelectedImage(image);
     setFormData({ ...formData, image }); // Update the selected image in the form data
   };

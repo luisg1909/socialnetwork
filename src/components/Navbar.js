@@ -7,6 +7,9 @@ import { useState } from 'react';
 import { getFromSession } from '../utils/SessionStorage';
 import {  saveToSession } from '../utils/SessionStorage';
 import { Post } from '../utils/DataModel';
+import {  Row, Col, Form, Card} from 'react-bootstrap';
+import {  Button, Alert } from 'react-bootstrap';
+
 const posts = getFromSession('posts') || [];
 const users = getFromSession('users') || [];
 
@@ -15,18 +18,38 @@ const AppNavbar = () => {
   const navigate = useNavigate();
   const basename = '/sharenetwork';
   const [user, setUser] = useState(null);
-
+  const [formData, setFormData] = useState({    
+    Email: '',    
+    Password: ''
+  })
   const handleLogout = () => {
     logout();
     navigate( '/login');
   };
+  const [error, setError] = useState(null);
 
+  const handleLogin = (e) => {
+    e.preventDefault();
+    console.log("User handleLogin!")
+
+    const users = getFromSession('users') || [];
+    const user = users.find(
+      (u) => u.Email === formData.Email && u.Password === formData.Password
+    );
+
+    if (user) {
+      saveToSession('currentUser', user);
+      setError('');
+
+      navigate('/', { state: { message: 'Welcome!' } });
+    } else {
+      setError('Invalid username or password.');
+    }
+  };
   useEffect(() => {
     const storedUsers = getFromSession('users') || [];
-    console.log("Stored users:", storedUsers);
   
     if (storedUsers.length === 0) {
-      console.log("No users found — loading default user");
   
       const defaultUser = {
         username: "Mark",
@@ -127,8 +150,9 @@ const AppNavbar = () => {
       setUser(defaultUser);
     } else {
       const currentUser = getCurrentUser();
-      console.log("Current user from session:", currentUser);
       setUser(currentUser); 
+     
+   
     }
   }, []);
 
@@ -137,35 +161,71 @@ const AppNavbar = () => {
   return (
     <Navbar bg="primary" variant="dark" expand="lg">
       <Navbar.Brand href={basename + "#/"}>  <h2 className="m-0">The facebook</h2></Navbar.Brand>
-
+      {currentUser  ? (
       <Container>
-        <Nav className="ms-auto">
-          <Nav.Link href={basename + "#/"} className="text-white">Home</Nav.Link>
-          <Nav.Link href={basename + "#/profile"} className="text-white">Profile</Nav.Link>
+      <Nav className="ms-auto">
+        <Nav.Link href={basename + "#/"} className="text-white">Home</Nav.Link>
+        <Nav.Link href={basename + "#/profile"} className="text-white">Profile</Nav.Link>
 
-          {/* Account Dropdown */}
-          <NavDropdown title="Account" id="account-dropdown" align="end" className="text-white">
-            <div className="d-flex align-items-center px-3 py-2">
-              <Image
-                src={`${process.env.PUBLIC_URL}/img/${user.ProfilePic}`}
-                roundedCircle
-                width={40}
-                height={40}
-                className="me-2"
-              />
-              <strong>{currentUser?.name || 'User Name'}</strong>
-            </div>
-            <NavDropdown.Divider />
-            <NavDropdown.Item href="#/edit-friends">Edit Friends</NavDropdown.Item>
-            <NavDropdown.Item href="#/account-settings">Account Settings</NavDropdown.Item>
-            <NavDropdown.Item href="#/privacy-settings">Privacy Settings</NavDropdown.Item>
-            <NavDropdown.Item href="#/app-settings">Application Settings</NavDropdown.Item>
-            <NavDropdown.Item href="#/help">Help Center</NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
-          </NavDropdown>
-        </Nav>
-      </Container>
+        {/* Account Dropdown */}
+        <NavDropdown title="Account" id="account-dropdown" align="end" className="text-white">
+          <div className="d-flex align-items-center px-3 py-2">
+            <Image
+              src={`${process.env.PUBLIC_URL}/img/${user.ProfilePic}`}
+              roundedCircle
+              width={40}
+              height={40}
+              className="me-2"
+            />
+            <strong>{currentUser?.username || 'User Name'}</strong>
+          </div>
+          <NavDropdown.Divider />
+
+       
+          <NavDropdown.Item href="/#/friends">Edit Friends</NavDropdown.Item>
+          <NavDropdown.Item href="#/account-settings">Account Settings</NavDropdown.Item>
+          <NavDropdown.Item href="#/privacy-settings">Privacy Settings</NavDropdown.Item>
+          <NavDropdown.Item href="#/app-settings">Application Settings</NavDropdown.Item>
+          <NavDropdown.Item href="#/help">Help Center</NavDropdown.Item>
+          <NavDropdown.Divider />
+          <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+        </NavDropdown>
+      </Nav>
+    </Container>
+
+            )  : (
+              <Container>
+                 
+               <Form  onSubmit={handleLogin}>
+
+                  <Row>
+                              
+                              <Col>
+                              <Form.Control className="mt-2"name="Email"  value={formData.Email} type="email" size="sm" required placeholder="Email" onChange={(e) => setFormData({ ...formData, Email: e.target.value })} />
+
+                              </Col>
+                              <Col>
+                              <Form.Control className="mt-2" name="Password"  value={formData.Password}  size="sm" type="password" required placeholder="Password" onChange={(e) => setFormData({ ...formData, Password: e.target.value })} />
+                    
+                              </Col>
+                              <Col>
+                              <Button className="w-100 mt-3" type="submit" variant="warning" >Log In</Button>
+                              </Col>
+                              <Col>
+                              {error && <Alert variant="danger">{error}</Alert>}
+                              </Col>
+                  </Row>
+
+        
+                </Form>
+               
+            </Container>
+                 
+
+              )
+
+            }
+
     </Navbar>
   );
 };

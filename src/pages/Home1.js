@@ -3,6 +3,7 @@ import { Table, Alert } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getFromSession } from '../utils/SessionStorage';
 import { getCurrentUser } from '../utils/Auth';
+import { getCurrentPath } from '../utils/Auth';
 import {  saveToSession } from '../utils/SessionStorage';
 import { Post } from '../utils/DataModel';
 import { User } from '../utils/DataModel';
@@ -19,11 +20,14 @@ const Home = () => {
   const [user, setUser] = useState(null);
   const posts = getFromSession('posts') || [];
   const [showAttachImage, setShowAttachImage] = useState(false);
+  const [path, setPath] = useState(null);
 
   const [formData, setFormData] = useState({
     content: '',
     image: ''
   })
+
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     var newPost = new Post(    
@@ -43,11 +47,10 @@ const Home = () => {
     navigate(`/profile/${FriendId}`); // Navigate to the edit page
   };
   var users = getFromSession("users") || [];
-
   useEffect(() => {
     const storedUsers = getFromSession('users') || [];
-    
-  
+    setPath(getCurrentPath()); 
+
     if (storedUsers.length === 0) {
  
 
@@ -82,16 +85,22 @@ const Home = () => {
           <Card className="mb-3">
             <Card.Body>
               <div className="d-flex align-items-center mb-3">
-              <a href="/sharenetwork#/profile">  <Image src={`${process.env.PUBLIC_URL}/img/${user.ProfilePic}`} roundedCircle width={40} className="me-2" /></a>  
-                <span>{user.Firstname} {user.Lastname}</span>
+              <a href="/#/profile">  <Image src={`${process.env.PUBLIC_URL}/img/${user.ProfilePic}`} roundedCircle width={40} className="me-2" /></a>  
+                <span>
+                <strong style={{ textDecoration: 'none', color: '#003399' }}> {user.Firstname} {user.Lastname}</strong>
+                 </span>
               </div>
               <ListGroup variant="flush">
                 <ListGroup.Item>News Feed</ListGroup.Item>
+               
+                <a href="/#/messages" style={{ textDecoration: 'none', color: 'inherit' }}>
                 <ListGroup.Item>Messages</ListGroup.Item>
+                </a> 
+
                 <ListGroup.Item>Events</ListGroup.Item>
                 <ListGroup.Item>Photos</ListGroup.Item>
                 
-                <a href="/sharenetwork#/friends" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <a href="/#/friends" style={{ textDecoration: 'none', color: 'inherit' }}>
                 <ListGroup.Item>Friends</ListGroup.Item>
                 </a> 
 
@@ -187,7 +196,7 @@ const Home = () => {
                       </Link>
 
                         <div>
-                          <strong>{usernameandlastname}</strong> posted <br />
+                          <strong style={{ textDecoration: 'none', color: '#003399' }}>{usernameandlastname}</strong> posted <br />
                           <small className="text-muted">
                             {new Date(post.dateCreated).toLocaleString()}
                           </small>

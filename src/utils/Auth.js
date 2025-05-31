@@ -15,3 +15,8 @@ export const getCurrentUser = () => {
 export const logout = () => {
   sessionStorage.removeItem('currentUser'); // Remove the current user
 };
+
+export const getCurrentPath = () => { 
+  return 'sharenetwork';
+};
+

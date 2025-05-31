@@ -2,7 +2,7 @@
 
 This is a simple **Facebook Clone** built with **React**, **Bootstrap**, and **SessionStorage**.
 
-Users can register, log in, edit their profile, publish posts, and attach images — all in a simulated, interactive social network experience. No database or backend is required, as all data is stored in `sessionStorage`.
+Users can register, log in, edit their profile, publish posts, attach images to post,chat with users,add them as friends — all in a simulated, interactive social network experience.
 
 ---
 
@@ -22,12 +22,13 @@ Users can register, log in, edit their profile, publish posts, and attach images
 - Posts can include an image from a predefined gallery.
 - Image picker can be toggled on/off before submitting a post.
 ### Visit registered users
-- As a social network, you can visit your friends' profiles, see their status, address, etc.
-
+- As a social network, you can visit users profiles, see their status, address, etc.
 ### Add Friends
 - As a social network, you can add friends to stay connected.
 - You can also delete friends or add them again.
-
+### Chat with friends
+- You can chat with your friends
+. to have a conversation about things and lifestyle or whatever you want.
 ### Data Storage
 - All user data, including posts and profile updates, is stored in `sessionStorage`.
 

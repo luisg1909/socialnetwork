@@ -17,7 +17,6 @@ class User {
       this.Networks = Networks;
       this.Hometown = Hometown;
       this.Relationship = Relationship;
-      this.ProfilePic = ProfilePic;
     }
   }
 
@@ -27,6 +26,13 @@ class User {
       this.username = username;
       this.friendId = friendId;
       this.status = status;
+    }
+  }
+  class Message {
+    constructor(username, friendId, message ) {
+      this.username = username;
+      this.friendId = friendId;
+      this.message = message;
     }
   }
 
@@ -42,5 +48,5 @@ class User {
     }
   }
   
-  export { User, Post,Friend };
+  export { User, Post,Friend,Message };
   

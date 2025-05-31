@@ -71,10 +71,10 @@ const PostDetail = () => {
           updatedUser,
           ...users.slice(userIndex + 1)
       ];
-      console.log(`User ${updatedUser.username} points updated to: ${updatedUser.points}`);
+     
       saveToSession('users', updatedUsers); // Save updated users array
     } else {
-      console.error('Current user not found in users list.');
+      
     }
 
 
